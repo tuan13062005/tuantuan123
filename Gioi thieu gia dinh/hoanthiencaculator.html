@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h1>Máy tính mô phỏng</h1>
+    <style>
+        #calculator {
+            width: 240px;
+            background-color: #85aabe;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        #result {
+            grid-column: span 4;
+            height: 50px;
+            text-align: right;
+            font-size: 24px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #b3d5f5;
+            border: none;
+            color: black;
+        }
+
+        button {
+            width: 100%;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #235ba9;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .equal {
+            background-color: #f3931e;
+            color: white;
+            grid-row: span 2;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="result" readonly>
+
+        <button onclick="clearScreen()">MC</button>
+        <button onclick="memoryPlus()">M+</button>
+        <button onclick="memoryMinus()">M-</button>
+        <button onclick="memoryRecall()">RM</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button onclick="appendValue('/')">/</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="appendValue('*')">X</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('-')">-</button>
+
+        <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button onclick="appendValue('+')">+</button>
+
+        <button onclick="calculate()" class="equal">=</button>
+        <button onclick="square()">x²</button>
+        <button onclick="sqrt()">√</button>
+        <button onclick="toggleSign()">+/-</button>
+    </div>
+
+    <script>
+        let memory = 0;
+
+        function appendValue(value) {
+            document.getElementById('result').value += value;
+        }
+
+        function clearScreen() {
+            document.getElementById('result').value = '';
+        }
+
+        function calculate() {
+            var result = document.getElementById('result').value;
+            try {
+                document.getElementById('result').value = eval(result);
+            } catch (e) {
+                document.getElementById('result').value = 'Error';
+            }
+        }
+
+        function square() {
+            var result = document.getElementById('result').value;
+            try {
+                document.getElementById('result').value = Math.pow(eval(result), 2);
+            } catch (e) {
+                document.getElementById('result').value = 'Error';
+            }
+        }
+
+        function sqrt() {
+            var result = document.getElementById('result').value;
+            try {
+                document.getElementById('result').value = Math.sqrt(eval(result));
+            } catch (e) {
+                document.getElementById('result').value = 'Error';
+            }
+        }
+
+        function toggleSign() {
+            var result = document.getElementById('result').value;
+            if (result) {
+                document.getElementById('result').value = eval(result) * -1;
+            }
+        }
+
+        function memoryPlus() {
+            var result = document.getElementById('result').value;
+            if (result) {
+                memory += parseFloat(result);
+                clearScreen();
+            }
+        }
+
+        function memoryMinus() {
+            var result = document.getElementById('result').value;
+            if (result) {
+                memory -= parseFloat(result);
+                clearScreen();
+            }
+        }
+
+        function memoryRecall() {
+            document.getElementById('result').value = memory;
+        }
+    </script>
+</body>
+</html>
